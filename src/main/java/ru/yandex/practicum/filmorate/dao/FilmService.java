@@ -1,6 +1,6 @@
 package ru.yandex.practicum.filmorate.dao;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.ValidationException;
 
@@ -9,16 +9,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
-public class FilmDAO {
+@Service
+public class FilmService {
     private final Map<Integer, Film> films = new HashMap<>();
     private int filmsCount = 0;
 
-    public int generateId() {
+    private int generateId() {
         return ++filmsCount;
     }
 
-    public List<Film> getFilms() {
+    public List<Film> findAll() {
         return new ArrayList<>(films.values());
     }
 
