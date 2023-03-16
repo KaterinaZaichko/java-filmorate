@@ -5,10 +5,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.dao.UserService;
+import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.ValidateService;
-import ru.yandex.practicum.filmorate.service.ValidationException;
+import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -25,7 +25,7 @@ public class UserController {
 
     @GetMapping
     public List<User> getUsers() {
-        return userService.findAll();
+        return userService.getAll();
     }
 
     @PostMapping

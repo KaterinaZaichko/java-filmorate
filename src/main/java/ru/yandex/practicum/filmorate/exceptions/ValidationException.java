@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.service;
+package ru.yandex.practicum.filmorate.exceptions;
 
 public class ValidationException extends Exception{
     public ValidationException(String message) {
