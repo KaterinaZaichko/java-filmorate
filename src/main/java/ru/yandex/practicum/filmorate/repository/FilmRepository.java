@@ -8,6 +8,8 @@ import java.util.List;
 public interface FilmRepository{
     List<Film> findAll();
 
+    Film findFilmById(int id);
+
     Film save(Film film);
 
     Film update(Film film) throws ValidationException;

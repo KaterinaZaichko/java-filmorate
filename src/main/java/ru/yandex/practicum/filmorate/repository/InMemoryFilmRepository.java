@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.repository;
 
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.filmorate.exceptions.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 
@@ -24,6 +25,14 @@ public class InMemoryFilmRepository implements FilmRepository{
     }
 
     @Override
+    public Film findFilmById(int id) {
+        return films.values().stream()
+                .filter(f -> f.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new FilmNotFoundException(String.format("Фильм № %d не найден", id)));
+    }
+
+    @Override
     public Film save(Film film) {
         film.setId(generateId());
         films.put(film.getId(), film);
@@ -33,7 +42,7 @@ public class InMemoryFilmRepository implements FilmRepository{
     @Override
     public Film update(Film film) throws ValidationException {
         if(!films.containsKey(film.getId())) {
-            throw new ValidationException("User with this id doesn't exist");
+            throw new FilmNotFoundException("Film with this id doesn't exist");
         }
         films.put(film.getId(), film);
         return film;

@@ -14,19 +14,22 @@ class ValidateServiceTest {
 
     @Test
     public void shouldThrowExceptionWhenReleaseDateIsNotValid() {
-        Film film = new Film(1, "Name", "Description", LocalDate.of(1895,12,27), 120);
+        Film film = new Film(1, "Name", "Description",
+                LocalDate.of(1895,12,27), 120);
         assertThrows(ValidationException.class, () -> validateService.validateFilm(film));
     }
 
     @Test
     public void shouldThrowExceptionWhenLoginContainsSpaces() {
-        User user = new User(1, "mail@mail.ru", "login login", "Name", LocalDate.of(1895,12,27));
+        User user = new User(1, "mail@mail.ru", "login login", "Name",
+                LocalDate.of(1895,12,27));
         assertThrows(ValidationException.class, () -> validateService.validateUser(user));
     }
 
     @Test
     public void shouldTrueWhenNmeIsNull() throws ValidationException {
-        User user = new User(1, "mail@mail.ru", "login", null, LocalDate.of(1895,12,27));
+        User user = new User(1, "mail@mail.ru", "login", null,
+                LocalDate.of(1895,12,27));
         validateService.validateUser(user);
         assertEquals(user.getLogin(), user.getName());
     }

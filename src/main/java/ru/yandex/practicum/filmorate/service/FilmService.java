@@ -1,27 +1,23 @@
 package ru.yandex.practicum.filmorate.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.repository.FilmRepository;
 
 import java.util.List;
 
-@Service
-public class FilmService {
-    @Autowired
-    private FilmRepository filmRepository;
+public interface FilmService {
+    List<Film> getAll();
 
-    public List<Film> getAll() {
-        return filmRepository.findAll();
-    }
+    Film getFilmById(int id);
 
-    public Film save(Film film) {
-        return filmRepository.save(film);
-    }
+    Film save(Film film);
 
-    public Film update(Film film) throws ValidationException {
-        return filmRepository.update(film);
-    }
+    Film update(Film film) throws ValidationException;
+
+    void addLike(int filmId, int UserId);
+
+    void deleteLike(int filmId, int UserId);
+
+    List<Film> getTopFilms(int count);
+
 }

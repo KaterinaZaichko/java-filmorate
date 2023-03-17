@@ -24,7 +24,7 @@ public class ValidateService {
             log.warn("User login contains spaces: {}", user.getLogin());
             throw new ValidationException("Invalid login");
         }
-        if (user.getName() == null) {
+        if (user.getName() == null || user.getName().isBlank()) {
             user.setName(user.getLogin());
         }
     }
