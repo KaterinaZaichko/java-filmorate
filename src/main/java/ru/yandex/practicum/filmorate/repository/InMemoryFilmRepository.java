@@ -1,6 +1,6 @@
 package ru.yandex.practicum.filmorate.repository;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.exceptions.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
+@Repository
 public class InMemoryFilmRepository implements FilmRepository{
     private final Map<Integer, Film> films = new HashMap<>();
     private int filmsCount = 0;

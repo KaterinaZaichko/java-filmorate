@@ -1,6 +1,6 @@
 package ru.yandex.practicum.filmorate.repository;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.exceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
+@Repository
 public class InMemoryUserRepository implements UserRepository{
     private final Map<Integer, User> users = new HashMap<>();
     private int usersCount = 0;
@@ -41,7 +41,7 @@ public class InMemoryUserRepository implements UserRepository{
     @Override
     public User update(User user) throws ValidationException {
         if(!users.containsKey(user.getId())) {
-            throw new UserNotFoundException("User with this id doesn't exist");
+            throw new UserNotFoundException(String.format("Пользователь № %d не найден", user.getId()));
         }
         users.put(user.getId(), user);
         return user;

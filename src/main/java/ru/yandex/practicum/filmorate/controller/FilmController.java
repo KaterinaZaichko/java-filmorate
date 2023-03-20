@@ -5,14 +5,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.service.InMemoryFilmService;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.service.InMemoryUserService;
 import ru.yandex.practicum.filmorate.service.ValidateService;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
@@ -24,6 +23,7 @@ import java.util.List;
 public class FilmController {
     private final ValidateService validateService;
     private final InMemoryFilmService filmService;
+    private final InMemoryUserService userService;
 
     @GetMapping
     public List<Film> getFilms() {
@@ -52,16 +52,13 @@ public class FilmController {
     }
 
     @PutMapping("/{filmId}/like/{userId}")
-    public void addLikeToFilm(@PathVariable int filmId, @PathVariable @Positive int userId) {
+    public void addLikeToFilm(@PathVariable int filmId, @PathVariable int userId) {
         filmService.addLike(filmId, userId);
         log.info("User{} liked film {}", userId, filmId);
     }
 
     @DeleteMapping("/{filmId}/like/{userId}")
     public void deleteLikeFromFilm(@PathVariable int filmId, @PathVariable int userId) {
-        if(userId < 0) {
-            throw new UserNotFoundException(String.format("id %d не найден", userId));
-        }
         filmService.deleteLike(filmId, userId);
         log.info("User{} disliked film {}", userId, filmId);
     }

@@ -1,7 +1,8 @@
 package ru.yandex.practicum.filmorate.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
@@ -10,13 +11,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class InMemoryUserService implements UserService{
     private final UserRepository userRepository;
-
-    @Autowired
-    public InMemoryUserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public List<User> getAll() {
@@ -45,7 +42,13 @@ public class InMemoryUserService implements UserService{
     }
 
     @Override
-    public void removeFromFriends(int userId, int friendId) {
+    public void deleteFromFriends(int userId, int friendId) {
+        if (!getUserById(userId).getFriends().contains(friendId))  {
+            throw new UserNotFoundException(String.format("id %d не найден", friendId));
+        }
+        if (!getUserById(friendId).getFriends().contains(userId))  {
+            throw new UserNotFoundException(String.format("id %d не найден", friendId));
+        }
         userRepository.findUserById(userId).getFriends().remove(friendId);
         userRepository.findUserById(friendId).getFriends().remove(userId);
     }
