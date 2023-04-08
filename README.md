@@ -1,6 +1,6 @@
 # java-filmorate
 
-![](../../../Users/kater/OneDrive/Рабочий стол/Filmorate.png)
+![Filmorate](https://user-images.githubusercontent.com/99019116/230739086-0017188e-23b8-41b1-863e-c7ea4a944daa.png)
 
 Примеры запросов:
 * получение всех фильмов:
