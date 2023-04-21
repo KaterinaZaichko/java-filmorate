@@ -14,9 +14,9 @@ public interface FilmService {
 
     Film update(Film film) throws ValidationException;
 
-    void addLike(int filmId, int UserId);
+    void addLike(int filmId, int userId);
 
-    void deleteLike(int filmId, int UserId);
+    void deleteLike(int filmId, int userId);
 
     List<Film> getTopFilms(int count);
 }
