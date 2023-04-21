@@ -1,21 +1,26 @@
 package ru.yandex.practicum.filmorate.service;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.repository.FilmRepository;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class InMemoryFilmService implements FilmService {
     private final FilmRepository filmRepository;
     private final UserRepository userRepository;
+
+    @Autowired
+    public InMemoryFilmService(@Qualifier("filmDbStorage") FilmRepository filmRepository,
+                               @Qualifier("userDbStorage") UserRepository userRepository) {
+        this.filmRepository = filmRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public List<Film> getAll() {
@@ -40,22 +45,16 @@ public class InMemoryFilmService implements FilmService {
     @Override
     public void addLike(int filmId, int userId) {
         userRepository.findUserById(userId);
-        filmRepository.findFilmById(filmId).getLikes().add(userId);
+        filmRepository.addLike(filmId, userId);
     }
 
     @Override
     public void deleteLike(int filmId, int userId) {
-        if (!getFilmById(filmId).getLikes().contains(userId))  {
-            throw new UserNotFoundException(String.format("id %d не найден", userId));
-        }
-        filmRepository.findFilmById(filmId).getLikes().remove(userId);
+        filmRepository.deleteLike(filmId, userId);
     }
 
     @Override
     public List<Film> getTopFilms(int count) {
-        return filmRepository.findAll().stream()
-                .sorted((f1, f2) -> f2.getLikes().size() - f1.getLikes().size())
-                .limit(count)
-                .collect(Collectors.toList());
+        return filmRepository.getTopFilms(count);
     }
 }

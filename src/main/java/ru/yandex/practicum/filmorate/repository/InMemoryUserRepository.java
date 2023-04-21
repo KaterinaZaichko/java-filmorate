@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
-public class InMemoryUserRepository implements UserRepository{
+public class InMemoryUserRepository implements UserRepository {
     private final Map<Integer, User> users = new HashMap<>();
     private int usersCount = 0;
 
@@ -31,6 +32,7 @@ public class InMemoryUserRepository implements UserRepository{
                 .findFirst()
                 .orElseThrow(() -> new UserNotFoundException(String.format("Пользователь № %d не найден", id)));
     }
+
     @Override
     public User save(User user) {
         user.setId(generateId());
@@ -40,10 +42,38 @@ public class InMemoryUserRepository implements UserRepository{
 
     @Override
     public User update(User user) throws ValidationException {
-        if(!users.containsKey(user.getId())) {
+        if (!users.containsKey(user.getId())) {
             throw new UserNotFoundException(String.format("Пользователь № %d не найден", user.getId()));
         }
         users.put(user.getId(), user);
         return user;
+    }
+
+    @Override
+    public void addToFriends(int userId, int friendId) {
+        findUserById(userId).getFriends().add(friendId);
+        findUserById(friendId).getFriends().add(userId);
+    }
+
+    @Override
+    public void deleteFromFriends(int userId, int friendId) {
+        findUserById(userId).getFriends().remove(friendId);
+        findUserById(friendId).getFriends().remove(userId);
+    }
+
+    @Override
+    public List<User> getFriends(int userId) {
+        return findUserById(userId).getFriends().stream()
+                .map(this::findUserById)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<User> getMutualFriends(int userId, int otherUserId) {
+        List<User> userFriends = getFriends(userId);
+        List<User> otherUserFriends = getFriends(otherUserId);
+        return userFriends.stream()
+                .filter(otherUserFriends::contains)
+                .collect(Collectors.toList());
     }
 }

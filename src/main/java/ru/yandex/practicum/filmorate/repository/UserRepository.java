@@ -13,4 +13,12 @@ public interface UserRepository {
     User save(User user);
 
     User update(User user) throws ValidationException;
+
+    void addToFriends(int userId, int friendId);
+
+    void deleteFromFriends(int userId, int friendId);
+
+    List<User> getFriends(int userId);
+
+    List<User> getMutualFriends(int userId, int otherUserId);
 }

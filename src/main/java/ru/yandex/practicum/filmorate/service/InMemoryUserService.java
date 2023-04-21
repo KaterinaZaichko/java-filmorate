@@ -1,19 +1,22 @@
 package ru.yandex.practicum.filmorate.service;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exceptions.UserNotFoundException;
-import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
+import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
-public class InMemoryUserService implements UserService{
+public class InMemoryUserService implements UserService {
     private final UserRepository userRepository;
+
+    @Autowired
+    public InMemoryUserService(@Qualifier("userDbStorage") UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public List<User> getAll() {
@@ -37,35 +40,21 @@ public class InMemoryUserService implements UserService{
 
     @Override
     public void addToFriends(int userId, int friendId) {
-        userRepository.findUserById(userId).getFriends().add(friendId);
-        userRepository.findUserById(friendId).getFriends().add(userId);
+        userRepository.addToFriends(userId, friendId);
     }
 
     @Override
     public void deleteFromFriends(int userId, int friendId) {
-        if (!getUserById(userId).getFriends().contains(friendId))  {
-            throw new UserNotFoundException(String.format("id %d не найден", friendId));
-        }
-        if (!getUserById(friendId).getFriends().contains(userId))  {
-            throw new UserNotFoundException(String.format("id %d не найден", friendId));
-        }
-        userRepository.findUserById(userId).getFriends().remove(friendId);
-        userRepository.findUserById(friendId).getFriends().remove(userId);
+        userRepository.deleteFromFriends(userId, friendId);
     }
 
     @Override
     public List<User> getFriends(int userId) {
-        return userRepository.findUserById(userId).getFriends().stream()
-                .map(userRepository::findUserById)
-                .collect(Collectors.toList());
+        return userRepository.getFriends(userId);
     }
 
     @Override
     public List<User> getMutualFriends(int userId, int otherUserId) {
-        List<User> userFriends = getFriends(userId);
-        List<User> otherUserFriends = getFriends(otherUserId);
-        return userFriends.stream()
-                .filter(otherUserFriends::contains)
-                .collect(Collectors.toList());
+        return userRepository.getMutualFriends(userId, otherUserId);
     }
 }
