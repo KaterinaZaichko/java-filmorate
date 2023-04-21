@@ -8,7 +8,7 @@ import ru.yandex.practicum.filmorate.repository.RatingRepository;
 import java.util.List;
 
 @Service
-public class InMemoryRatingService implements RatingService{
+public class InMemoryRatingService implements RatingService {
     private final RatingRepository ratingRepository;
 
     @Autowired
