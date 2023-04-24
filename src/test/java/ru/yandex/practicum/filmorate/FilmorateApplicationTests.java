@@ -8,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
-import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Rating;
@@ -142,7 +141,7 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    public void testUpdateFilm() throws ValidationException {
+    public void testUpdateFilm() {
         filmStorage.save(film);
         assertThat(Optional.ofNullable(filmStorage.update(updateFilm)))
                 .isPresent()
@@ -167,7 +166,7 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    public void testFindFilmById() throws ValidationException {
+    public void testFindFilmById() {
         filmStorage.save(film);
         filmStorage.update(updateFilm);
         assertThat(Optional.ofNullable(filmStorage.findFilmById(1)))
@@ -232,7 +231,7 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    public void testUpdateUser() throws ValidationException {
+    public void testUpdateUser() {
         userStorage.save(user);
         assertThat(Optional.ofNullable(userStorage.update(updateUser)))
                 .isPresent()
@@ -246,7 +245,7 @@ class FilmorateApplicationTests {
     }
 
     @Test
-    public void testFindUserById() throws ValidationException {
+    public void testFindUserById() {
         userStorage.save(user);
         userStorage.update(updateUser);
         assertThat(Optional.ofNullable(userStorage.findUserById(1)))

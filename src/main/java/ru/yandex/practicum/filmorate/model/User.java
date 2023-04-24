@@ -2,23 +2,21 @@ package ru.yandex.practicum.filmorate.model;
 
 import lombok.Data;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Past;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.Set;
 
 @Data
 public class User {
     private Integer id;
+    @NotEmpty
     @Email
     private String email;
-    @NotBlank
+    @Pattern(regexp = "^\\S+$", message = "Login must not contain spaces")
     private String login;
     private String name;
-    @Past
+    @NotNull
+    @PastOrPresent
     private LocalDate birthday;
-    private Set<Integer> friends;
 
     public User(Integer id, String email, String login, String name, LocalDate birthday) {
         this.id = id;

@@ -8,11 +8,11 @@ import ru.yandex.practicum.filmorate.repository.GenreRepository;
 import java.util.List;
 
 @Service
-public class InMemoryGenreService implements GenreService {
+public class GenreServiceImpl implements GenreService {
     private final GenreRepository genreRepository;
 
     @Autowired
-    public InMemoryGenreService(GenreRepository genreRepository) {
+    public GenreServiceImpl(GenreRepository genreRepository) {
         this.genreRepository = genreRepository;
     }
 

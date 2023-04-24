@@ -1,21 +1,23 @@
 package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.repository.FriendsRepository;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
 
 import java.util.List;
 
 @Service
-public class InMemoryUserService implements UserService {
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final FriendsRepository friendsRepository;
 
     @Autowired
-    public InMemoryUserService(@Qualifier("userDbStorage") UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, FriendsRepository friendsRepository) {
         this.userRepository = userRepository;
+        this.friendsRepository = friendsRepository;
     }
 
     @Override
@@ -40,21 +42,21 @@ public class InMemoryUserService implements UserService {
 
     @Override
     public void addToFriends(int userId, int friendId) {
-        userRepository.addToFriends(userId, friendId);
+        friendsRepository.addToFriends(userId, friendId);
     }
 
     @Override
     public void deleteFromFriends(int userId, int friendId) {
-        userRepository.deleteFromFriends(userId, friendId);
+        friendsRepository.deleteFromFriends(userId, friendId);
     }
 
     @Override
     public List<User> getFriends(int userId) {
-        return userRepository.getFriends(userId);
+        return friendsRepository.getFriends(userId);
     }
 
     @Override
     public List<User> getMutualFriends(int userId, int otherUserId) {
-        return userRepository.getMutualFriends(userId, otherUserId);
+        return friendsRepository.getMutualFriends(userId, otherUserId);
     }
 }
