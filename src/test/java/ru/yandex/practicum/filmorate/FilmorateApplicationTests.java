@@ -85,12 +85,6 @@ class FilmorateApplicationTests {
                         assertThat(testFilm.getMpa()).hasFieldOrPropertyWithValue("id", 1)
                                 .hasFieldOrPropertyWithValue("name", null)
                 );
-//                .hasValueSatisfying(testFilm ->
-//                        assertThat(testFilm.getGenres().contains(new Genre(1, null))).isTrue()
-//                )
-//                .hasValueSatisfying(testFilm ->
-//                        assertThat(testFilm.getGenres().contains(new Genre(2, null))).isTrue()
-//                );
     }
 
     @Test
@@ -114,12 +108,6 @@ class FilmorateApplicationTests {
                         assertThat(films.get(0).getMpa()).hasFieldOrPropertyWithValue("id", 1)
                                 .hasFieldOrPropertyWithValue("name", "G")
                 )
-//                .hasValueSatisfying(films ->
-//                        assertThat(films.get(0).getGenres().contains(new Genre(1, "Комедия"))).isTrue()
-//                )
-//                .hasValueSatisfying(films ->
-//                        assertThat(films.get(0).getGenres().contains(new Genre(2, "Драма"))).isTrue()
-//                )
                 .hasValueSatisfying(films ->
                         assertThat(films.get(1)).hasFieldOrPropertyWithValue("id", 2)
                                 .hasFieldOrPropertyWithValue("name", "Name2")
@@ -132,12 +120,6 @@ class FilmorateApplicationTests {
                         assertThat(films.get(1).getMpa()).hasFieldOrPropertyWithValue("id", 2)
                                 .hasFieldOrPropertyWithValue("name", "PG")
                 );
-//                .hasValueSatisfying(films ->
-//                        assertThat(films.get(1).getGenres().contains(new Genre(3, "Мультфильм"))).isTrue()
-//                )
-//                .hasValueSatisfying(films ->
-//                        assertThat(films.get(1).getGenres().contains(new Genre(4, "Триллер"))).isTrue()
-//                );
     }
 
     @Test
@@ -150,19 +132,13 @@ class FilmorateApplicationTests {
                                 .hasFieldOrPropertyWithValue("name", "updateName")
                                 .hasFieldOrPropertyWithValue("description", "updateDescription")
                                 .hasFieldOrPropertyWithValue("duration", 125)
-                                .hasFieldOrPropertyWithValue("releaseDate", LocalDate.of(1990, 11, 23))
-
+                                .hasFieldOrPropertyWithValue("releaseDate",
+                                        LocalDate.of(1990, 11, 23))
+                )
+                .hasValueSatisfying(testFilm ->
+                        assertThat(testFilm.getMpa()).hasFieldOrPropertyWithValue("id", 3)
+                                .hasFieldOrPropertyWithValue("name", null)
                 );
-//                .hasValueSatisfying(testFilm ->
-//                        assertThat(testFilm.getMpa()).hasFieldOrPropertyWithValue("id", 3)
-//                                .hasFieldOrPropertyWithValue("name", "PG-13")
-//                );
-//                .hasValueSatisfying(testFilm ->
-//                        assertThat(testFilm.getGenres().contains(new Genre(5, "Документальный"))).isTrue()
-//                )
-//                .hasValueSatisfying(testFilm ->
-//                        assertThat(testFilm.getGenres().contains(new Genre(6, "Боевик"))).isTrue()
-//                );
     }
 
     @Test
@@ -183,12 +159,6 @@ class FilmorateApplicationTests {
                         assertThat(testFilm.getMpa()).hasFieldOrPropertyWithValue("id", 3)
                                 .hasFieldOrPropertyWithValue("name", "PG-13")
                 );
-//                .hasValueSatisfying(testFilm ->
-//                        assertThat(testFilm.getGenres().contains(new Genre(5, "Документальный"))).isTrue()
-//                )
-//                .hasValueSatisfying(testFilm ->
-//                        assertThat(testFilm.getGenres().contains(new Genre(6, "Боевик"))).isTrue()
-//                );
     }
 
 
