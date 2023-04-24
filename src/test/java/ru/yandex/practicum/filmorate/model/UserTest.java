@@ -22,15 +22,23 @@ class UserTest {
     @Test
     public void validateEmail() {
         User user = new User(1, "mail.ru", "login", "Name",
-                LocalDate.of(1895, 12, 27));
+                LocalDate.of(1895, 12, 28));
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         assertEquals(1, violations.size(), "Email doesn't have format of email");
     }
 
     @Test
+    public void validateLogin() {
+        User user = new User(1, "mail@mail.ru", "login login", "Name",
+                LocalDate.of(1895, 12, 28));
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        assertEquals(1, violations.size(), "User login contains spaces");
+    }
+
+    @Test
     public void validateName() {
         User user = new User(1, "mail@mail.ru", "", "Name",
-                LocalDate.of(1895, 12, 27));
+                LocalDate.of(1895, 12, 28));
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         assertEquals(1, violations.size(), "Login is empty");
     }
@@ -38,7 +46,7 @@ class UserTest {
     @Test
     public void validateBirthday() {
         User user = new User(1, "mail@mail.ru", "login", "Name",
-                LocalDate.of(2895, 12, 27));
+                LocalDate.of(2895, 12, 28));
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         assertEquals(1, violations.size(), "Birthday must be in past");
     }

@@ -1,35 +1,43 @@
 package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.repository.FilmRepository;
+import ru.yandex.practicum.filmorate.repository.GenreRepository;
+import ru.yandex.practicum.filmorate.repository.LikesRepository;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
 
 import java.util.List;
 
 @Service
-public class InMemoryFilmService implements FilmService {
+public class FilmServiceImpl implements FilmService {
     private final FilmRepository filmRepository;
     private final UserRepository userRepository;
+    private final LikesRepository likesRepository;
+    private final GenreRepository genreRepository;
 
     @Autowired
-    public InMemoryFilmService(@Qualifier("filmDbStorage") FilmRepository filmRepository,
-                               @Qualifier("userDbStorage") UserRepository userRepository) {
+    public FilmServiceImpl(FilmRepository filmRepository, UserRepository userRepository, LikesRepository likesRepository, GenreRepository genreRepository) {
         this.filmRepository = filmRepository;
         this.userRepository = userRepository;
+        this.likesRepository = likesRepository;
+        this.genreRepository = genreRepository;
     }
 
     @Override
     public List<Film> getAll() {
-        return filmRepository.findAll();
+        List<Film> films = filmRepository.findAll();
+        genreRepository.findGenresForAllFilms(films);
+        return films;
     }
 
     @Override
     public Film getFilmById(int id) {
-        return filmRepository.findFilmById(id);
+        Film film = filmRepository.findFilmById(id);
+        genreRepository.findGenresForAllFilms(List.of(film));
+        return film;
     }
 
     @Override
@@ -45,12 +53,12 @@ public class InMemoryFilmService implements FilmService {
     @Override
     public void addLike(int filmId, int userId) {
         userRepository.findUserById(userId);
-        filmRepository.addLike(filmId, userId);
+        likesRepository.addLike(filmId, userId);
     }
 
     @Override
     public void deleteLike(int filmId, int userId) {
-        filmRepository.deleteLike(filmId, userId);
+        likesRepository.deleteLike(filmId, userId);
     }
 
     @Override

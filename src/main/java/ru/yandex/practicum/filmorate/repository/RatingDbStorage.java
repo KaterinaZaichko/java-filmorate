@@ -1,6 +1,6 @@
 package ru.yandex.practicum.filmorate.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -12,13 +12,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class RatingDbStorage implements RatingRepository {
     private final JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    public RatingDbStorage(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @Override
     public List<Rating> findAll() {
