@@ -28,7 +28,7 @@ class UserTest {
     }
 
     @Test
-    public void validateLogin() {
+    public void validateLoginWithSpaces() {
         User user = new User(1, "mail@mail.ru", "login login", "Name",
                 LocalDate.of(1895, 12, 28));
         Set<ConstraintViolation<User>> violations = validator.validate(user);
@@ -36,11 +36,11 @@ class UserTest {
     }
 
     @Test
-    public void validateName() {
+    public void validateEmptyLogin() {
         User user = new User(1, "mail@mail.ru", "", "Name",
                 LocalDate.of(1895, 12, 28));
         Set<ConstraintViolation<User>> violations = validator.validate(user);
-        assertEquals(1, violations.size(), "Login is empty");
+        assertEquals(2, violations.size(), "Login is empty");
     }
 
     @Test
