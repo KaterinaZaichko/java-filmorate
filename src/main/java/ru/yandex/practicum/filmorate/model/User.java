@@ -11,6 +11,7 @@ public class User {
     @NotEmpty
     @Email
     private String email;
+    @NotEmpty
     @Pattern(regexp = "^\\S+$", message = "Login must not contain spaces")
     private String login;
     private String name;

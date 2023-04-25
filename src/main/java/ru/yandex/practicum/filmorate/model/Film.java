@@ -39,6 +39,6 @@ public class Film {
     }
 
     public void addGenre(Genre genre) {
-        getGenres().add(genre);
+        genres.add(genre);
     }
 }

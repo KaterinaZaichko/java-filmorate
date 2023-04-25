@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getFriends(int userId) {
+        userRepository.findUserById(userId);
         return friendsRepository.getFriends(userId);
     }
 

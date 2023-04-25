@@ -52,12 +52,15 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public void addLike(int filmId, int userId) {
+        filmRepository.findFilmById(filmId);
         userRepository.findUserById(userId);
         likesRepository.addLike(filmId, userId);
     }
 
     @Override
     public void deleteLike(int filmId, int userId) {
+        filmRepository.findFilmById(filmId);
+        userRepository.findUserById(userId);
         likesRepository.deleteLike(filmId, userId);
     }
 
