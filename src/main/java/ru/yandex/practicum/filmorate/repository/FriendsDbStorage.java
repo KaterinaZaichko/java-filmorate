@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.exceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.sql.ResultSet;
@@ -47,7 +46,6 @@ public class FriendsDbStorage implements FriendsRepository {
 
     @Override
     public List<User> getFriends(int userId) {
-        validateUserId(userId);
         String sqlQuery = "SELECT u.id, u.email, u.login, u.name, u.birthday\n" +
                 "FROM m2m_friends AS m2mf\n" +
                 "JOIN users AS u ON u.id = m2mf.friend_id\n" +
@@ -70,13 +68,5 @@ public class FriendsDbStorage implements FriendsRepository {
                 resultSet.getString("login"),
                 resultSet.getString("name"),
                 resultSet.getDate("birthday").toLocalDate());
-    }
-
-    private void validateUserId(int userId) {
-        SqlRowSet userRows = jdbcTemplate.queryForRowSet(
-                "SELECT id FROM users WHERE id = ?", userId);
-        if (!userRows.next()) {
-            throw new UserNotFoundException(String.format("Пользователь c id %d не найден", userId));
-        }
     }
 }
