@@ -17,28 +17,28 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse negativeHandler(ConstraintViolationException e) {
-        log.error("Нарушено ограничение");
+        log.info("400: {}", e.getMessage(), e);
         return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse validateHandler(final ValidationException e) {
-        log.error("Проблема проверки компонента");
+        log.info("400: {}", e.getMessage(), e);
         return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler({FilmNotFoundException.class, UserNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse notFoundHandler(final RuntimeException e) {
-        log.error("Объект не найден");
+        log.info("404: {}", e.getMessage(), e);
         return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse exceptionHandler(final Throwable e) {
-        log.error("Произошла непредвиденная ошибка");
+        log.info("500: {}", e.getMessage(), e);
         return new ErrorResponse("Произошла непредвиденная ошибка.");
     }
 }

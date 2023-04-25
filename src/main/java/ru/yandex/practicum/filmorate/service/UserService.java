@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.service;
 
-import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.List;
@@ -12,7 +11,7 @@ public interface UserService {
 
     User save(User user);
 
-    User update(User user) throws ValidationException;
+    User update(User user);
 
     void addToFriends(int userId, int friendId);
 
