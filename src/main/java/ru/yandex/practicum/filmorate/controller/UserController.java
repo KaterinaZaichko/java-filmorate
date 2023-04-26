@@ -1,14 +1,12 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.service.InMemoryUserService;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.service.ValidateService;
-import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -17,11 +15,10 @@ import java.util.List;
 @RequestMapping("/users")
 @Validated
 @Slf4j
-@Data
 @RequiredArgsConstructor
 public class UserController {
     private final ValidateService validateService;
-    private final InMemoryUserService userService;
+    private final UserService userService;
 
     @GetMapping
     public List<User> getUsers() {
@@ -34,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody @Valid User user) throws ValidationException {
+    public User createUser(@RequestBody @Valid User user) {
         validateService.validateUser(user);
         userService.save(user);
         log.info("User had been created: {}", user);
@@ -42,7 +39,7 @@ public class UserController {
     }
 
     @PutMapping()
-    public User updateUser(@RequestBody @Valid User user) throws ValidationException {
+    public User updateUser(@RequestBody @Valid User user) {
         validateService.validateUser(user);
         userService.update(user);
         log.info("User had been created or updated: {}", user);
